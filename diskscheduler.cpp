@@ -5,8 +5,29 @@
 
 using namespace std;
 
+#define ARR_SIZE 1000
+
 int INITIAL_POS;
+int *queue_arr = new int[ARR_SIZE];
 int fcfs(int *queue, int size);
+
+void readFile(string inputFileName){
+    ifstream inputFile;
+    inputFile.open(inputFileName);
+    if(!inputFile.is_open()){
+        cout << "Could not open input file." << endl;
+    }
+    string lineContent;
+    int lineContentConverted;
+    int i = 0;
+    while (!inputFile.fail()){
+        getline(inputFile, lineContent);
+        lineContentConverted = stoi(lineContent);
+        queue_arr[i] = lineContentConverted;
+        i++;
+    }
+    inputFile.close();
+}
 
 int main(int argc, char *argv[]) {
     INITIAL_POS = 5;
