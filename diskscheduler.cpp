@@ -6,32 +6,48 @@
 using namespace std;
 
 #define ARR_SIZE 1000       //added by Adrian
-
+#define MAX_POS 4999
 int INITIAL_POS;
-int MAX_POS;
+
+
+
 int fcfs(int *queue, int size);
 int sstf(int *queue, int size);
 int scan(int *queue, int size);
 int cscan(int *queue, int size);
 int* sort(int *queue, int size);
+void readFile(string inputFileName);
 int *queue_arr = new int[ARR_SIZE];     //added by Adrian
+int *queue_arr2 = new int[ARR_SIZE]; 
+int *queue_arr3 = new int[ARR_SIZE]; 
+int *queue_arr4 = new int[ARR_SIZE]; 
 
 
 int main(int argc, char *argv[]) {
-    INITIAL_POS = 53;
-    MAX_POS = 199;
-    int arrSize = 8;
-    int req[8] = {98, 183, 37, 122, 14, 124, 65, 67};
-    int* req2 = sort(req,8);
-    int test = cscan(req2,8);
-    cout << test << endl;
-    /*
-    int* req2;
-    req2 = sort(req,arrSize);
-    for (int i = 0; i < arrSize; i++) {
-        cout << req[i] << endl;
+    if (argc != 3) {
+        cout << "Please use the proper command line arguments: ./diskscheduler <inital position (0 - 4999)> <file name>" << endl;
+        return 0;
     }
-    */
+    INITIAL_POS = stoi(argv[1]);
+    if ((INITIAL_POS > 4999) || (INITIAL_POS < 0)) {
+        cout << "Please use the proper command line arguments: ./diskscheduler <inital position (0 - 4999)> <file name>" << endl;
+        return 0;
+    }
+    readFile(argv[2]);
+    
+    int* req = sort(queue_arr2,ARR_SIZE);
+    int* req2 = sort(queue_arr3,ARR_SIZE);
+    int* req3 = sort(queue_arr4,ARR_SIZE);
+    
+    int fcfs_num = fcfs(queue_arr,ARR_SIZE);
+    int scan_num = scan(req,ARR_SIZE);
+    int cscan_num = cscan(req2,ARR_SIZE);
+    int sstf_num = sstf(req3,ARR_SIZE);
+
+    cout << "FCFS:   " << fcfs_num << endl;
+    cout << "SSTF:   " << sstf_num << endl;
+    cout << "SCAN:   " << scan_num << endl;
+    cout << "C-SCAN: " << cscan_num << endl;
 }
 
 int fcfs(int *queue, int size) {
@@ -61,7 +77,6 @@ int sstf(int *queue, int size) {
             }
         }
         result += diff;
-        cout << diff << endl;
         count++;
         position = queue[index];
         queue[index] = -1;
@@ -76,6 +91,7 @@ int scan(int *queue, int size) {
     int position = INITIAL_POS;
     int mid;
     int diff = 5001;
+    int count = 1;
     
     for (int i = 0; i < size; i++) {
         if (queue[i] < position) {
@@ -86,6 +102,10 @@ int scan(int *queue, int size) {
     for (int i = mid; i >= 0; i--) {
         result += abs(position - queue[i]);
         position = queue[i];
+        count++;
+    }
+    if (count == ARR_SIZE) {
+        return result;
     }
     result += position;
     position = 0;
@@ -103,6 +123,7 @@ int cscan(int *queue, int size) {
     int position = INITIAL_POS;
     int diff = 5001;
     int mid = 0;
+    int count = 1;
     
     for (int i = 0; i < (size); i++) {
         if (queue[i] < position) {
@@ -119,8 +140,11 @@ int cscan(int *queue, int size) {
     for (int i = mid + 1; i < size; i++) {
         result += abs(position - queue[i]);
         position = queue[i];
-        cout << position << endl;
         queue[i] = -1;
+        count++;
+    }
+    if (count == ARR_SIZE) {
+        return result;
     }
     result += abs(MAX_POS - position);
     position = MAX_POS;
@@ -152,14 +176,21 @@ void readFile(string inputFileName){        //added by Adrian
     inputFile.open(inputFileName);
     if(!inputFile.is_open()){
         cout << "Could not open input file." << endl;
+        exit(0);
     }
     string lineContent;
     int lineContentConverted;
     int i = 0;
     while (!inputFile.fail()){
         getline(inputFile, lineContent);
+        if (lineContent == "") {
+            break;
+        }
         lineContentConverted = stoi(lineContent);
         queue_arr[i] = lineContentConverted;
+        queue_arr2[i] = lineContentConverted;
+        queue_arr3[i] = lineContentConverted;
+        queue_arr4[i] = lineContentConverted;
         i++;
     }
     inputFile.close();
