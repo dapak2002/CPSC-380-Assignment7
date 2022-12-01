@@ -5,12 +5,15 @@
 
 using namespace std;
 
+#define ARR_SIZE 1000       //added by Adrian
+
 int INITIAL_POS;
 int fcfs(int *queue, int size);
 int sstf(int *queue, int size);
 int scan(int *queue, int size);
 int cscan(int *queue, int size);
 int* sort(int *queue, int size);
+int *queue_arr = new int[ARR_SIZE];     //added by Adrian
 
 
 int main(int argc, char *argv[]) {
@@ -62,4 +65,22 @@ int* sort(int *queue, int size) {
         }
     }
     return queue;
+}
+
+void readFile(string inputFileName){        //added by Adrian
+    ifstream inputFile;
+    inputFile.open(inputFileName);
+    if(!inputFile.is_open()){
+        cout << "Could not open input file." << endl;
+    }
+    string lineContent;
+    int lineContentConverted;
+    int i = 0;
+    while (!inputFile.fail()){
+        getline(inputFile, lineContent);
+        lineContentConverted = stoi(lineContent);
+        queue_arr[i] = lineContentConverted;
+        i++;
+    }
+    inputFile.close();
 }
