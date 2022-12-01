@@ -36,7 +36,7 @@ int* sort(int *queue, int size) {
             int hold = queue[i];
             queue[i] = queue[i+1];
             queue[i+1] = hold;
-            i = 0;
+            i = -1;
         }
     }
     return queue;
