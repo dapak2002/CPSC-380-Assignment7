@@ -84,3 +84,22 @@ void readFile(string inputFileName){        //added by Adrian
     }
     inputFile.close();
 }
+
+void selectionSort(int anArray[], int size){
+  int i;
+  int j;
+  int imin;
+  for(i = 0; i < size - 1; i++){
+    imin = i;
+    for(j = i + 1; j < size; j++){
+      if(anArray[j] < anArray[imin]){
+        imin = j;
+      }
+    }
+    if(imin != i){
+      double temp = anArray[i];
+      anArray[i] = anArray[imin];
+      anArray[imin] = temp;
+    }
+  }
+}
