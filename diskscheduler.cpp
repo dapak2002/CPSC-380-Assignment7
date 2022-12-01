@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
     cout << "C-SCAN: " << cscan_num << endl;
 }
 
+// First come first serve
 int fcfs(int *queue, int size) {
     int result = 0;
     int position = INITIAL_POS;
@@ -60,6 +61,7 @@ int fcfs(int *queue, int size) {
     return result;
 }
 
+// Shortest seek time first
 int sstf(int *queue, int size) {
     int result = 0;
     int position = INITIAL_POS;
@@ -86,6 +88,7 @@ int sstf(int *queue, int size) {
     return result;
 }
 
+// SCAN
 int scan(int *queue, int size) {
     int result = 0;
     int position = INITIAL_POS;
@@ -93,12 +96,14 @@ int scan(int *queue, int size) {
     int diff = 5001;
     int count = 1;
     
+    // Find index of request towards 0
     for (int i = 0; i < size; i++) {
         if (queue[i] < position) {
             mid = i;
         }
     }
 
+    // Move arm towards 0 fulfilling requests along the way
     for (int i = mid; i >= 0; i--) {
         result += abs(position - queue[i]);
         position = queue[i];
@@ -107,8 +112,12 @@ int scan(int *queue, int size) {
     if (count == ARR_SIZE) {
         return result;
     }
+
+    // Move all the way to 0 position
     result += position;
     position = 0;
+
+    // Move arm towards max fulfilling requests along the way
     for (int i = mid + 1; i < size; i++) {
         result += abs(position - queue[i]);
         position = queue[i];
@@ -118,6 +127,7 @@ int scan(int *queue, int size) {
 
 }
 
+// C-SCAN
 int cscan(int *queue, int size) {
     int result = 0;
     int position = INITIAL_POS;
@@ -125,31 +135,42 @@ int cscan(int *queue, int size) {
     int mid = 0;
     int count = 1;
     
+    // Find first request towards the max
     for (int i = 0; i < (size); i++) {
         if (queue[i] < position) {
             mid = i;
         }
     }
 
+    // If the arm is past the last request, move to 0
     if (position > queue[size - 1]) {
+        result += (MAX_POS - position);
+        position = MAX_POS;
         result += position;
         position = 0;
         mid = 0;
     }
     
+    // Move arm towards max fulfilling requests along the way
     for (int i = mid + 1; i < size; i++) {
         result += abs(position - queue[i]);
         position = queue[i];
         queue[i] = -1;
         count++;
     }
+
+    // If all of the requests have been fulfilled return
     if (count == ARR_SIZE) {
         return result;
     }
+
+    // Mover arm back to 0
     result += abs(MAX_POS - position);
     position = MAX_POS;
     result += position;
     position = 0;
+
+    // Move arm towards max fulfilling requests along the way
     for (int i = 0; i < size; i++) {
         if (queue[i] != -1) {
             result += abs(position - queue[i]);
@@ -159,6 +180,7 @@ int cscan(int *queue, int size) {
     return result;
 }
 
+// Sorts from least to greatest using bubble sort
 int* sort(int *queue, int size) {
     for (int i = 0; i < (size - 1); i++) {
         if (queue[i] > queue[i + 1]) {
