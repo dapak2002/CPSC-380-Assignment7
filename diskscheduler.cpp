@@ -7,7 +7,11 @@ using namespace std;
 
 int INITIAL_POS;
 int fcfs(int *queue, int size);
+int sstf(int *queue, int size);
+int scan(int *queue, int size);
+int cscan(int *queue, int size);
 int* sort(int *queue, int size);
+
 
 int main(int argc, char *argv[]) {
     INITIAL_POS = 53;
@@ -28,6 +32,24 @@ int fcfs(int *queue, int size) {
         position = queue[i];
     }
     return result;
+}
+
+int sstf(int *queue, int size) {
+    int result = 0;
+    return result;
+
+}
+
+int scan(int *queue, int size) {
+    int result = 0;
+    return result;
+
+}
+
+int cscan(int *queue, int size) {
+    int result = 0;
+    return result;
+
 }
 
 int* sort(int *queue, int size) {
