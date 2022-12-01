@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.txt": "perl6",
+        "__locale": "cpp",
+        "iostream": "cpp"
+    }
+}
