@@ -93,7 +93,6 @@ int scan(int *queue, int size) {
     int result = 0;
     int position = INITIAL_POS;
     int mid;
-    int diff = 5001;
     int count = 1;
     
     // Find index of request towards 0
@@ -131,7 +130,6 @@ int scan(int *queue, int size) {
 int cscan(int *queue, int size) {
     int result = 0;
     int position = INITIAL_POS;
-    int diff = 5001;
     int mid = 0;
     int count = 1;
     
